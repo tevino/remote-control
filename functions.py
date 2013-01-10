@@ -7,12 +7,12 @@ _current_player = None
 
 def reboot():
     'R2C2'
-    call(['/sbin/reboot'])
+    call(['sudo', '/sbin/reboot'])
 
 
 def shutdown():
     'POWER'
-    call(['/sbin/shutdown', '-h', 'now'])
+    call(['sudo', '/sbin/shutdown', '-h', 'now'])
 
 
 def turn_volume():
