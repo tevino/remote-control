@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from subprocess import Popen, PIPE
 
 
@@ -18,7 +19,7 @@ class CliPlayerMixin(object):
     def play(self):
         self.stop()
         args = (self._bin, ) + self._fixed_args + self.options + (self.filename, )
-        self._player = Popen(args, stdin=PIPE, stdout=PIPE)
+        self._player = Popen(args, stdin=PIPE, stdout=PIPE, preexec_fn=os.setpgrp)
 
     def send(self, cmd):
         if self._player:
