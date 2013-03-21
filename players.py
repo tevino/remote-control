@@ -5,21 +5,23 @@ from subprocess import Popen, PIPE
 
 class CliPlayerMixin(object):
     _bin = ''
-    _fixed_args = ()
+    _addtional_args = ()
     filename = ''
     append_newline = True
 
-    def __init__(self, *options):
+    def __init__(self, args=None):
         self._player = None
-        self.options = options
+        self.args = args or ()
 
     def load(self, filename):
         self.filename = filename
 
     def play(self):
         self.stop()
-        args = (self._bin, ) + self._fixed_args + self.options + (self.filename, )
-        self._player = Popen(args, stdin=PIPE, stdout=PIPE, preexec_fn=os.setpgrp)
+        args = (self._bin, ) + self.args + self._addtional_args +\
+            (self.filename, )
+        self._player = Popen(
+            args, stdin=PIPE, stdout=PIPE, preexec_fn=os.setpgrp)
 
     def send(self, cmd):
         if self._player:
@@ -32,7 +34,7 @@ class CliPlayerMixin(object):
 
 class Mplayer(CliPlayerMixin):
     _bin = '/usr/bin/mplayer'
-    _fixed_args = ('-slave', )
+    _addtional_args = ('-slave', '-really-quiet', '-noconsolecontrols')
 
     def pause(self):
         self.send('p')
