@@ -100,4 +100,7 @@ def _get_pls(channel):
 
 def _turn_volume(direction):
     assert direction in ('+', '-')
-    call(['/usr/bin/amixer', '-q', 'sset', 'Master', '5%' + direction], stdout=PIPE, stderr=PIPE)
+    call(
+        ['/usr/bin/amixer', '-q', 'sset', 'Master', '2%' + direction],
+        stdout=PIPE, stderr=PIPE
+    )
